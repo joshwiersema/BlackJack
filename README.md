@@ -7,7 +7,7 @@ The game runs entirely in the console and focuses on clean logic and object-orie
 
 Technologies & Techniques Used
 
-Java (console application)
+C++
 
 Object-oriented programming
 
