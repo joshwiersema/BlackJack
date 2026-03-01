@@ -29,6 +29,179 @@
     overflow: hidden;
   }
 
+  /* ── Screens ── */
+  .screen {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 200;
+  }
+  .screen.active { display: flex; }
+
+  /* ── Setup / Betting / Cashout / GameOver panels ── */
+  .panel {
+    background: rgba(10,20,10,0.92);
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 36px 44px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(212,175,55,0.3), 0 20px 40px rgba(0,0,0,0.7);
+    max-width: 420px;
+    width: 92%;
+  }
+
+  .panel h2 {
+    font-size: 1.8rem;
+    color: var(--gold);
+    text-shadow: 0 0 18px rgba(212,175,55,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .panel .subtitle {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+
+  .disclaimer {
+    display: inline-block;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.35);
+    border-radius: 999px;
+    padding: 3px 14px;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="number"] {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus { border-color: var(--gold); }
+  .form-group input::placeholder { color: rgba(255,255,255,0.25); }
+
+  /* ── Bet slider row ── */
+  .bet-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bet-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--gold);
+  }
+  .bet-row input[type="number"] {
+    width: 90px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #fff;
+    outline: none;
+  }
+  .bet-row input[type="number"]:focus { border-color: var(--gold); }
+
+  /* ── Balance display ── */
+  .balance-display {
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.55);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 4px;
+  }
+  .stat-row span:last-child { color: #fff; }
+
+  .big-message {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(212,175,55,0.6);
+    margin: 16px 0 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .sub-message {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 24px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Buttons ── */
+  button {
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 11px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  }
+  button:active { transform: translateY(2px); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+  button:not(:disabled):hover { filter: brightness(1.12); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+
+  .btn-primary   { background: linear-gradient(135deg, #d4af37, #b8960c); color: #1a1a2e; }
+  .btn-secondary { background: linear-gradient(135deg, #2c3e50, #1a252f); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+  .btn-danger    { background: linear-gradient(135deg, #c0392b, #922b21); color: #fff; }
+
   /* ── Layout ── */
   #table {
     display: flex;
@@ -68,6 +241,30 @@
     color: rgba(255,255,255,0.45);
     letter-spacing: 0.12em;
     margin-top: 2px;
+  }
+
+  /* ── Money HUD ── */
+  #hud {
+    display: none;
+    gap: 0;
+    z-index: 1;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+  }
+  #hud.visible { display: flex; }
+  .hud-item {
+    padding: 5px 16px;
+    color: rgba(255,255,255,0.6);
+  }
+  .hud-item span { color: var(--gold); font-weight: bold; }
+  .hud-sep {
+    width: 1px;
+    background: rgba(255,255,255,0.12);
+    align-self: stretch;
   }
 
   /* ── Zones ── */
@@ -217,8 +414,17 @@
     margin-top: 4px;
     letter-spacing: 0.06em;
   }
+  #result-money {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  #result-money.win  { color: #2ecc71; }
+  #result-money.loss { color: #e74c3c; }
+  #result-money.push { color: rgba(255,255,255,0.6); }
 
-  /* ── Buttons ── */
+  /* ── Game controls ── */
   #controls {
     display: flex;
     gap: 12px;
@@ -227,28 +433,10 @@
     justify-content: center;
   }
 
-  button {
-    font-family: inherit;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 11px 28px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.18s;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-  }
-  button:active { transform: translateY(2px); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-
-  #btn-hit   { background: linear-gradient(135deg, #27ae60, #1e8449); color: #fff; }
-  #btn-stand { background: linear-gradient(135deg, #c0392b, #922b21); color: #fff; }
+  #btn-hit    { background: linear-gradient(135deg, #27ae60, #1e8449); color: #fff; }
+  #btn-stand  { background: linear-gradient(135deg, #c0392b, #922b21); color: #fff; }
   #btn-double { background: linear-gradient(135deg, #d4af37, #b8960c); color: #1a1a2e; }
-  #btn-new   { background: linear-gradient(135deg, #2c3e50, #1a252f); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
-
-  button:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
-  button:not(:disabled):hover { filter: brightness(1.12); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+  #btn-next   { background: linear-gradient(135deg, #2c3e50, #1a252f); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
   /* ── Status message ── */
   #status {
@@ -274,10 +462,70 @@
 </style>
 </head>
 <body>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 1 — Setup
+════════════════════════════════════════════ -->
+<div class="screen active" id="screen-setup">
+  <div class="panel">
+    <h2>♠ Blackjack ♥</h2>
+    <div class="subtitle">Beat the dealer &bull; Stand on 17</div>
+    <div class="disclaimer">Simulation — no real money</div>
+    <div class="form-group">
+      <div>
+        <label for="input-name">Your name</label>
+        <input type="text" id="input-name" placeholder="Enter your name" maxlength="32" />
+      </div>
+      <div>
+        <label for="input-balance">Starting balance ($)</label>
+        <input type="number" id="input-balance" placeholder="e.g. 500" min="1" max="1000000" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="doSetup()">Start Playing</button>
+    </div>
+    <div id="setup-error" style="color:#e74c3c;font-size:0.82rem;margin-top:12px;min-height:1em;"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 2 — Betting
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-betting">
+  <div class="panel">
+    <h2 id="bet-greeting">Place Your Bet</h2>
+    <div class="balance-display">Balance: $<span id="bet-balance">0</span></div>
+    <div class="form-group">
+      <div>
+        <label>Bet amount</label>
+        <div class="bet-row">
+          <input type="range" id="bet-slider" min="1" max="1000" value="10" oninput="syncBet('slider')" />
+          <input type="number" id="bet-input" min="1" max="1000" value="10" oninput="syncBet('input')" />
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="doDeal()">Deal</button>
+      <button class="btn-secondary" onclick="doCashOut()">Cash Out</button>
+    </div>
+    <div id="bet-error" style="color:#e74c3c;font-size:0.82rem;margin-top:12px;min-height:1em;"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 3 — Playing (the table)
+════════════════════════════════════════════ -->
 <div id="table">
   <div id="header">
     <h1>♠ Blackjack ♥</h1>
-    <p>Beat the dealer &bull; Stand on 17</p>
+    <p id="player-name-display">Beat the dealer &bull; Stand on 17</p>
+  </div>
+
+  <!-- Money HUD -->
+  <div id="hud">
+    <div class="hud-item">Balance: $<span id="hud-balance">0</span></div>
+    <div class="hud-sep"></div>
+    <div class="hud-item">Bet: $<span id="hud-bet">0</span></div>
   </div>
 
   <!-- Dealer zone -->
@@ -300,6 +548,7 @@
   <div id="result-banner">
     <div id="result-title">—</div>
     <div id="result-sub">—</div>
+    <div id="result-money"></div>
   </div>
 
   <!-- Controls -->
@@ -307,17 +556,191 @@
     <button id="btn-hit"    onclick="doAction('hit')"    disabled>Hit</button>
     <button id="btn-stand"  onclick="doAction('stand')"  disabled>Stand</button>
     <button id="btn-double" onclick="doAction('double')" disabled>Double</button>
-    <button id="btn-new"    onclick="newGame()">Deal</button>
+    <button id="btn-next"   onclick="goToBetting()"      style="display:none">Next Hand</button>
   </div>
 
-  <div id="status">Press Deal to start</div>
+  <div id="status">Set up your session to start</div>
   <div class="chip"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 4 — Game Over (broke)
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-gameover">
+  <div class="panel">
+    <h2>You're Broke!</h2>
+    <div class="subtitle">Better luck next time</div>
+    <div id="go-message" class="big-message" style="font-size:1.2rem;"></div>
+    <div id="go-stats" style="margin:16px 0;"></div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="goToSetup()">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 5 — Cash Out
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-cashout">
+  <div class="panel">
+    <h2>Cashing Out</h2>
+    <div id="co-message" class="big-message"></div>
+    <div id="co-sub" class="sub-message"></div>
+    <div id="co-stats" style="margin:16px 0;"></div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="goToSetup()">Play Again</button>
+    </div>
+  </div>
 </div>
 
 <script>
 const SUIT_SYMBOL = { S: '♠', H: '♥', D: '♦', C: '♣' };
 const RED_SUITS   = new Set(['H', 'D']);
 
+// ── Current session state ──
+let currentBalance = 0;
+let currentBet = 0;
+let playerName = '';
+let startingBalance = 0;
+
+// ── Screen management ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screen = document.getElementById(id);
+  if (screen) screen.classList.add('active');
+  document.getElementById('hud').classList.toggle('visible', id === 'screen-playing');
+}
+
+function goToSetup() {
+  showScreen('screen-setup');
+}
+
+function goToBetting() {
+  hideResult();
+  showBettingScreen();
+}
+
+function showBettingScreen() {
+  document.getElementById('bet-greeting').textContent = `${playerName}'s Turn`;
+  document.getElementById('bet-balance').textContent = currentBalance;
+  const max = currentBalance;
+  const slider = document.getElementById('bet-slider');
+  const input = document.getElementById('bet-input');
+  slider.max = max;
+  input.max = max;
+  const defaultBet = Math.min(currentBet || 10, max);
+  slider.value = defaultBet;
+  input.value = defaultBet;
+  document.getElementById('bet-error').textContent = '';
+  showScreen('screen-betting');
+}
+
+// ── Bet sync ──
+function syncBet(source) {
+  const slider = document.getElementById('bet-slider');
+  const input  = document.getElementById('bet-input');
+  const max = parseInt(slider.max) || currentBalance;
+  if (source === 'slider') {
+    let v = Math.min(Math.max(1, parseInt(slider.value) || 1), max);
+    slider.value = v;
+    input.value  = v;
+  } else {
+    let v = Math.min(Math.max(1, parseInt(input.value) || 1), max);
+    input.value  = v;
+    slider.value = v;
+  }
+}
+
+// ── Setup ──
+async function doSetup() {
+  const name    = document.getElementById('input-name').value.trim() || 'Player';
+  const balance = parseInt(document.getElementById('input-balance').value);
+  const errEl   = document.getElementById('setup-error');
+
+  if (!balance || balance < 1 || balance > 1_000_000) {
+    errEl.textContent = 'Please enter a balance between $1 and $1,000,000.';
+    return;
+  }
+  errEl.textContent = '';
+
+  const data = await api(`/api/setup?name=${encodeURIComponent(name)}&balance=${balance}`);
+  if (!data || data.error) {
+    errEl.textContent = data?.error || 'Setup failed.';
+    return;
+  }
+
+  playerName = data.name;
+  currentBalance = data.balance;
+  startingBalance = data.balance;
+  currentBet = 0;
+
+  document.getElementById('player-name-display').textContent = `${playerName} — Beat the dealer`;
+  showBettingScreen();
+}
+
+// ── Deal ──
+async function doDeal() {
+  const bet = parseInt(document.getElementById('bet-input').value);
+  const errEl = document.getElementById('bet-error');
+
+  if (!bet || bet < 1 || bet > currentBalance) {
+    errEl.textContent = `Bet must be between $1 and $${currentBalance}.`;
+    return;
+  }
+  errEl.textContent = '';
+
+  showScreen(null); // hide overlay screens, show table
+  document.getElementById('hud').classList.add('visible');
+  document.getElementById('status').textContent = 'Dealing…';
+  hideResult();
+
+  const state = await api(`/api/new?bet=${bet}`);
+  if (state) applyState(state);
+}
+
+// ── Cash Out ──
+async function doCashOut() {
+  const data = await api('/api/cashout');
+  if (!data || data.error) return;
+
+  const net = data.net;
+  const moneyEl = document.getElementById('co-message');
+  const subEl   = document.getElementById('co-sub');
+
+  if (net > 0) {
+    moneyEl.textContent = `You walked away $${net} ahead!`;
+    moneyEl.style.color = '#2ecc71';
+  } else if (net < 0) {
+    moneyEl.textContent = `You're down $${Math.abs(net)} — better luck next time.`;
+    moneyEl.style.color = '#e74c3c';
+  } else {
+    moneyEl.textContent = 'You broke even — not bad!';
+    moneyEl.style.color = 'var(--gold)';
+  }
+
+  subEl.textContent = data.message;
+  document.getElementById('co-stats').innerHTML = `
+    <div class="stat-row"><span>Started with</span><span>$${data.starting_balance}</span></div>
+    <div class="stat-row"><span>Walked away with</span><span>$${data.final_balance}</span></div>
+    <div class="stat-row"><span>Net</span><span>${net >= 0 ? '+' : ''}$${net}</span></div>
+  `;
+
+  showScreen('screen-cashout');
+}
+
+// ── Game Over ──
+function showGameOver() {
+  const net = currentBalance - startingBalance;
+  document.getElementById('go-message').textContent = `You went through $${startingBalance}.`;
+  document.getElementById('go-stats').innerHTML = `
+    <div class="stat-row"><span>Started with</span><span>$${startingBalance}</span></div>
+    <div class="stat-row"><span>Finished with</span><span>$0</span></div>
+    <div class="stat-row"><span>Net</span><span>-$${startingBalance}</span></div>
+  `;
+  showScreen('screen-gameover');
+}
+
+// ── Card rendering ──
 function cardHTML(card) {
   if (card.rank === '?' && card.suit === '?') {
     return `<div class="card hidden"><div class="card-corner"><span class="card-rank"></span></div></div>`;
@@ -352,28 +775,51 @@ function setScore(id, total, isBust) {
 
 function setButtons(phase, canDouble) {
   const playing = phase === 'player';
+  const done    = phase === 'done';
   document.getElementById('btn-hit').disabled    = !playing;
   document.getElementById('btn-stand').disabled  = !playing;
   document.getElementById('btn-double').disabled = !(playing && canDouble);
+  document.getElementById('btn-next').style.display = done ? 'inline-block' : 'none';
 }
 
-function showResult(result, dealerTotal, playerTotal) {
+function showResult(result, dealerTotal, playerTotal, net, bet) {
   const banner = document.getElementById('result-banner');
   const title  = document.getElementById('result-title');
   const sub    = document.getElementById('result-sub');
+  const moneyEl = document.getElementById('result-money');
 
   const map = {
     blackjack:        ['Blackjack! 🃏', 'Natural 21 — you win!'],
     dealer_blackjack: ['Dealer Blackjack', 'Better luck next time'],
-    bust:             ['Bust!',           `You went over 21`],
-    dealer_bust:      ['Dealer Busts!',   `Dealer went over — you win!`],
+    bust:             ['Bust!',           'You went over 21'],
+    dealer_bust:      ['Dealer Busts!',   'Dealer went over — you win!'],
     win:              ['You Win!',        `${playerTotal} beats ${dealerTotal}`],
     lose:             ['Dealer Wins',     `${dealerTotal} beats ${playerTotal}`],
-    push:             ['Push',            `Both at ${playerTotal} — it\'s a tie`],
+    push:             ['Push',            `Both at ${playerTotal} — it's a tie`],
   };
   const [t, s] = map[result] || ['—', ''];
   title.textContent = t;
   sub.textContent   = s;
+
+  // Money line
+  if (net !== null && net !== undefined) {
+    if (result === 'blackjack') {
+      moneyEl.textContent = `Blackjack pays 3:2 — you won $${Math.abs(net)}!`;
+      moneyEl.className = 'win';
+    } else if (result === 'push') {
+      moneyEl.textContent = `Bet returned — $${bet} back.`;
+      moneyEl.className = 'push';
+    } else if (net > 0) {
+      moneyEl.textContent = `You won $${net}!`;
+      moneyEl.className = 'win';
+    } else {
+      moneyEl.textContent = `You lost $${Math.abs(net)}.`;
+      moneyEl.className = 'loss';
+    }
+  } else {
+    moneyEl.textContent = '';
+  }
+
   banner.classList.add('show');
 }
 
@@ -393,41 +839,52 @@ function applyState(state) {
 
   setButtons(state.phase, state.can_double);
 
+  // Update HUD
+  if (state.balance !== undefined) {
+    currentBalance = state.balance;
+    currentBet = state.bet;
+    document.getElementById('hud-balance').textContent = state.balance;
+    document.getElementById('hud-bet').textContent = state.bet;
+  }
+
   const status = document.getElementById('status');
   if (state.phase === 'player') {
     status.textContent = 'Your turn — Hit, Stand, or Double';
   } else if (state.phase === 'dealer') {
     status.textContent = 'Dealer is playing…';
   } else {
-    status.textContent = 'Press Deal to play again';
+    status.textContent = 'Hand complete';
   }
 
   if (state.result) {
-    showResult(state.result, state.dealer_total, state.player_total);
+    showResult(state.result, state.dealer_total, state.player_total, state.net, state.bet);
+
+    // Check broke condition: balance is 0 after a losing hand
+    if (state.balance === 0 && state.net < 0) {
+      setTimeout(showGameOver, 1800);
+    }
   }
 }
 
 async function api(endpoint) {
   const res = await fetch(endpoint);
-  if (!res.ok) { console.error('API error', res.status); return; }
+  if (!res.ok) {
+    let err;
+    try { err = await res.json(); } catch { err = {}; }
+    console.error('API error', res.status, err);
+    return err;
+  }
   return res.json();
 }
 
-async function newGame() {
-  hideResult();
-  document.getElementById('status').textContent = 'Dealing…';
-  const state = await api('/api/new');
-  if (state) applyState(state);
-}
-
 async function doAction(action) {
-  setButtons('none', false); // disable while waiting
+  setButtons('none', false);
   const state = await api(`/api/${action}`);
-  if (state) applyState(state);
+  if (state && !state.error) applyState(state);
 }
 
-// Deal on load
-newGame();
+// Show the setup screen on load
+showScreen('screen-setup');
 </script>
 </body>
 </html>
