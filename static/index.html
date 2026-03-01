@@ -459,6 +459,81 @@
     transform: translateX(-50%);
     pointer-events: none;
   }
+
+  /* ── Card Flip Animation ── */
+  .card-flip-wrapper { width: var(--card-w); height: var(--card-h); perspective: 600px; flex-shrink: 0; }
+  .card-flip-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+  .card-flip-inner.flipped { transform: rotateY(180deg); }
+  .card-flip-front, .card-flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius); }
+  .card-flip-back { transform: rotateY(180deg); }
+
+  /* ── Dealer Thinking Indicator ── */
+  #dealer-thinking { font-size:0.78rem; color:var(--gold); letter-spacing:0.12em; text-transform:uppercase; min-height:1.2em; text-align:center; opacity:0; transition:opacity 0.3s; }
+  #dealer-thinking.visible { opacity: 1; }
+
+  /* ── Chip Buttons ── */
+  .chip-grid { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:16px; }
+  .chip-btn { width:58px; height:58px; border-radius:50%; border:3px solid rgba(255,255,255,0.3); font-family:inherit; font-size:0.75rem; font-weight:bold; color:#fff; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s,filter 0.15s; box-shadow:0 4px 12px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.2); position:relative; display:flex; align-items:center; justify-content:center; text-shadow:0 1px 2px rgba(0,0,0,0.5); }
+  .chip-btn::after { content:''; position:absolute; inset:5px; border-radius:50%; border:2px dashed rgba(255,255,255,0.25); }
+  .chip-btn:hover:not(:disabled) { transform:translateY(-3px) scale(1.08); box-shadow:0 8px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.3); filter:brightness(1.15); }
+  .chip-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .chip-5   { background:radial-gradient(circle at 35% 35%,#e74c3c,#922b21); }
+  .chip-10  { background:radial-gradient(circle at 35% 35%,#3498db,#1a5276); }
+  .chip-25  { background:radial-gradient(circle at 35% 35%,#2ecc71,#1a7a43); }
+  .chip-50  { background:radial-gradient(circle at 35% 35%,#9b59b6,#6c3483); }
+  .chip-100 { background:radial-gradient(circle at 35% 35%,#2c3e50,#111827); }
+  .chip-500 { background:radial-gradient(circle at 35% 35%,#d4af37,#8b6914); color:#1a1a2e; }
+
+  /* ── Animated Balance Counter ── */
+  @keyframes balancePulse { 0%{transform:scale(1)} 40%{transform:scale(1.2);color:#2ecc71} 100%{transform:scale(1)} }
+  @keyframes balanceLoss  { 0%{transform:scale(1)} 40%{transform:scale(1.2);color:#e74c3c} 100%{transform:scale(1)} }
+  .balance-pulse-win  { animation:balancePulse 0.5s ease-out; }
+  .balance-pulse-loss { animation:balanceLoss  0.5s ease-out; }
+
+  /* ── Enhanced Result Banner ── */
+  @keyframes bannerSlam {
+    0%   { transform: translate(-50%,-50%) scale(0.4) rotate(-6deg); opacity:0; }
+    60%  { transform: translate(-50%,-50%) scale(1.06) rotate(1deg); opacity:1; }
+    80%  { transform: translate(-50%,-50%) scale(0.97) rotate(-0.5deg); }
+    100% { transform: translate(-50%,-50%) scale(1) rotate(0deg); opacity:1; }
+  }
+  #result-banner.show {
+    animation: bannerSlam 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    min-width: 280px;
+    padding: 24px 52px;
+  }
+  #result-title { font-size: clamp(2rem,5vw,2.8rem); }
+
+  /* ── Button Glows ── */
+  #btn-hit:not(:disabled):hover    { box-shadow: 0 6px 20px rgba(39,174,96,0.5); }
+  #btn-stand:not(:disabled):hover  { box-shadow: 0 6px 20px rgba(192,57,43,0.5); }
+  #btn-double:not(:disabled):hover { box-shadow: 0 6px 20px rgba(212,175,55,0.5); }
+
+  /* ── Improved Card Back ── */
+  .card.hidden {
+    background: radial-gradient(ellipse at 40% 35%, #2a4aad, #0d1f6e);
+    border: 2px solid rgba(255,255,255,0.18);
+  }
+  .card.hidden::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255,255,255,0.06) 6px,
+      rgba(255,255,255,0.06) 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(255,255,255,0.06) 6px,
+      rgba(255,255,255,0.06) 7px
+    );
+  }
 </style>
 </head>
 <body>
@@ -496,12 +571,18 @@
     <h2 id="bet-greeting">Place Your Bet</h2>
     <div class="balance-display">Balance: $<span id="bet-balance">0</span></div>
     <div class="form-group">
-      <div>
-        <label>Bet amount</label>
-        <div class="bet-row">
-          <input type="range" id="bet-slider" min="1" max="1000" value="10" oninput="syncBet('slider')" />
-          <input type="number" id="bet-input" min="1" max="1000" value="10" oninput="syncBet('input')" />
-        </div>
+      <label>Quick bet</label>
+      <div class="chip-grid" id="chip-grid">
+        <button class="chip-btn chip-5"   onclick="setChipBet(5)">$5</button>
+        <button class="chip-btn chip-10"  onclick="setChipBet(10)">$10</button>
+        <button class="chip-btn chip-25"  onclick="setChipBet(25)">$25</button>
+        <button class="chip-btn chip-50"  onclick="setChipBet(50)">$50</button>
+        <button class="chip-btn chip-100" onclick="setChipBet(100)">$100</button>
+        <button class="chip-btn chip-500" onclick="setChipBet(500)">$500</button>
+      </div>
+      <label style="margin-top:8px">Or enter amount</label>
+      <div class="bet-row">
+        <input type="number" id="bet-input" min="1" max="1000" value="10" oninput="syncBetFromInput()" />
       </div>
     </div>
     <div class="btn-row">
@@ -533,6 +614,7 @@
     <div class="zone-label">Dealer</div>
     <div class="hand" id="dealer-hand"></div>
     <div class="score-badge" id="dealer-score">—</div>
+    <div id="dealer-thinking">Dealer is thinking…</div>
   </div>
 
   <div class="divider"></div>
@@ -623,32 +705,28 @@ function goToBetting() {
 function showBettingScreen() {
   document.getElementById('bet-greeting').textContent = `${playerName}'s Turn`;
   document.getElementById('bet-balance').textContent = currentBalance;
-  const max = currentBalance;
-  const slider = document.getElementById('bet-slider');
   const input = document.getElementById('bet-input');
-  slider.max = max;
-  input.max = max;
-  const defaultBet = Math.min(currentBet || 10, max);
-  slider.value = defaultBet;
-  input.value = defaultBet;
+  input.max = currentBalance;
+  input.value = Math.min(currentBet || 10, currentBalance);
   document.getElementById('bet-error').textContent = '';
+  updateChipButtons(currentBalance);
   showScreen('screen-betting');
 }
 
-// ── Bet sync ──
-function syncBet(source) {
-  const slider = document.getElementById('bet-slider');
-  const input  = document.getElementById('bet-input');
-  const max = parseInt(slider.max) || currentBalance;
-  if (source === 'slider') {
-    let v = Math.min(Math.max(1, parseInt(slider.value) || 1), max);
-    slider.value = v;
-    input.value  = v;
-  } else {
-    let v = Math.min(Math.max(1, parseInt(input.value) || 1), max);
-    input.value  = v;
-    slider.value = v;
-  }
+// ── Chip bet helpers ──
+function setChipBet(amount) {
+  const input = document.getElementById('bet-input');
+  input.value = Math.min(amount, currentBalance);
+}
+function syncBetFromInput() {
+  const input = document.getElementById('bet-input');
+  input.value = Math.min(Math.max(1, parseInt(input.value) || 1), currentBalance);
+}
+function updateChipButtons(balance) {
+  [5, 10, 25, 50, 100, 500].forEach(v => {
+    const btn = document.querySelector(`.chip-${v}`);
+    if (btn) btn.disabled = v > balance;
+  });
 }
 
 // ── Setup ──
@@ -841,9 +919,14 @@ function applyState(state) {
 
   // Update HUD
   if (state.balance !== undefined) {
+    const oldBal = currentBalance;
     currentBalance = state.balance;
     currentBet = state.bet;
-    document.getElementById('hud-balance').textContent = state.balance;
+    if (oldBal !== state.balance) {
+      animateBalance(state.balance, oldBal);
+    } else {
+      document.getElementById('hud-balance').textContent = state.balance;
+    }
     document.getElementById('hud-bet').textContent = state.bet;
   }
 
@@ -877,10 +960,115 @@ async function api(endpoint) {
   return res.json();
 }
 
+// ── Dealer reveal helpers ──
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+function animateBalance(newVal, oldVal) {
+  const el = document.getElementById('hud-balance');
+  const cls = newVal > oldVal ? 'balance-pulse-win' : 'balance-pulse-loss';
+  el.classList.remove('balance-pulse-win','balance-pulse-loss');
+  void el.offsetWidth; // reflow to restart animation
+  el.classList.add(cls);
+  const start = performance.now();
+  const duration = 600;
+  (function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(oldVal + (newVal - oldVal) * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = newVal;
+  })(start);
+}
+
+function createFlipCard(revealCard) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'card-flip-wrapper';
+  const inner = document.createElement('div');
+  inner.className = 'card-flip-inner';
+  const front = document.createElement('div');
+  front.className = 'card-flip-front';
+  front.innerHTML = cardHTML({ rank: '?', suit: '?' });
+  const back = document.createElement('div');
+  back.className = 'card-flip-back';
+  back.innerHTML = cardHTML(revealCard);
+  inner.append(front, back);
+  wrapper.appendChild(inner);
+  return { wrapper, inner };
+}
+
+async function revealDealer(state) {
+  const handEl = document.getElementById('dealer-hand');
+  const thinkEl = document.getElementById('dealer-thinking');
+  const statusEl = document.getElementById('status');
+
+  thinkEl.classList.add('visible');
+  statusEl.textContent = 'Dealer is thinking…';
+
+  const cards = state.dealer;
+
+  // Rebuild hand: flip card[0], keep card[1] static
+  handEl.innerHTML = '';
+  const { wrapper, inner } = createFlipCard(cards[0]);
+  handEl.appendChild(wrapper);
+
+  const c1div = document.createElement('div');
+  c1div.innerHTML = cardHTML(cards[1]);
+  const c1 = c1div.firstElementChild;
+  c1.style.animation = 'none';
+  handEl.appendChild(c1);
+
+  await delay(150);
+  inner.classList.add('flipped');
+  await delay(650);
+
+  // Deal any additional hit cards one by one
+  for (let i = 2; i < cards.length; i++) {
+    await delay(800);
+    const cardDiv = document.createElement('div');
+    cardDiv.innerHTML = cardHTML(cards[i]);
+    const c = cardDiv.firstElementChild;
+    c.style.animationDelay = '0s';
+    handEl.appendChild(c);
+  }
+
+  await delay(500);
+  thinkEl.classList.remove('visible');
+  setScore('dealer-score', state.dealer_total, state.dealer_total > 21);
+  await delay(350);
+
+  showResult(state.result, state.dealer_total, state.player_total, state.net, state.bet);
+
+  const oldBal = currentBalance;
+  currentBalance = state.balance;
+  currentBet = state.bet;
+  document.getElementById('hud-bet').textContent = state.bet;
+  animateBalance(state.balance, oldBal);
+
+  setButtons('done', false);
+  statusEl.textContent = 'Hand complete';
+
+  if (state.balance === 0 && state.net < 0) {
+    setTimeout(showGameOver, 2200);
+  }
+}
+
 async function doAction(action) {
   setButtons('none', false);
   const state = await api(`/api/${action}`);
-  if (state && !state.error) applyState(state);
+  if (!state || state.error) return;
+
+  if (action === 'stand') {
+    // Render player hand immediately; keep dealer masked for sequential reveal
+    renderHand('player-hand', state.player);
+    setScore('player-score', state.player_total, state.player_total > 21);
+    // Show dealer's already-visible card[1], keep card[0] as hidden
+    const masked = [{ rank:'?', suit:'?' }, ...state.dealer.slice(1)];
+    renderHand('dealer-hand', masked);
+    setScore('dealer-score', null, false); // clear score until reveal done
+    await revealDealer(state);
+  } else {
+    applyState(state);
+  }
 }
 
 // Show the setup screen on load
