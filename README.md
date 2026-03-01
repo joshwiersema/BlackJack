@@ -1,19 +1,40 @@
 # BlackJack
-Project Overview
 
-This project is a console-based BlackJack game written in C++. The program simulates a simplified version of classic casino BlackJack where the player competes against the dealer. It handles all core elements of gameplay: creating and shuffling a deck, dealing cards, calculating hand values (including Ace logic for 1 or 11), processing player choices (“hit” or “stand”), executing dealer rules, and determining the final winner.
+I built this browser-based Blackjack game built without frameworks and deployed it using the free tier of Render. I built this for my college friends that have a gambling addiction that are too broke to feed it.
+Live at: https://uiblackjack.onrender.com
 
-The game runs entirely in the console and focuses on clean logic and object-oriented structure rather than graphics. It serves as a foundational Java project that demonstrates card-game logic, class design, and program flow control.
+---
 
-Technologies & Techniques Used
+## Tech Stack
 
-C++
+**Backend:** Pure Python using the standard library's `http.server` module — no Flask, no Django, no third-party web framework. The server is multithreaded via `ThreadingHTTPServer` and handles all routing, session management, and game logic manually. Sessions are maintained server-side and tracked via an `HttpOnly` cookie.
 
-Object-oriented programming
+**Frontend:** Vanilla HTML, CSS, and JavaScript served from a `static/` directory. No frontend frameworks or build tools.
 
+**Deployment:** Render, configured via `render.yaml`.
 
-Custom shuffle and dealing logic
+---
 
-Control flow for gameplay decisions (“hit”, “stand”, bust, BlackJack, dealer turn)
+## How to Play
 
-Console input/output for all player interactions and game updates
+1. Enter your name and a starting balance to begin a session.
+2. Place a bet using the quick-select buttons or enter a custom amount, then hit **Deal**.
+3. On your turn, choose an action:
+   - **Hit** — draw another card
+   - **Stand** — end your turn and let the dealer play
+   - **Double** — double your bet, draw exactly one more card, and end your turn
+4. The dealer draws until reaching a hand total of 17 or higher.
+5. Whoever is closer to 21 without going over wins. A natural Blackjack (Ace + 10-value card on the initial deal) pays out at 2.5x your bet.
+6. Continue playing hands until you cash out or your balance hits zero.
+
+---
+
+## Run Locally
+```bash
+git clone https://github.com/joshwiersema/BlackJack.git
+cd BlackJack
+pip install -r requirements.txt
+python server.py
+```
+
+Navigate to `http://localhost:8080` in your browser.
